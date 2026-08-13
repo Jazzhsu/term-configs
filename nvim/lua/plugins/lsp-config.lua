@@ -52,6 +52,7 @@ return {
         init_options = {
           fallbackFlags = {'--std=c++17'}
         },
+        filetype = { "c", "cpp", "objc", "objcpp" },
       }
 
       -- :h lsp-buf to see details.

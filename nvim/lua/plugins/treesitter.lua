@@ -1,16 +1,23 @@
 -- treesitter (syntax highlight / indentation)
+
+local ensure_installed = { 'c', 'python' }
+
 return {
   "nvim-treesitter/nvim-treesitter",
+  branch = "main",
+  lazy = false,
   build = ":TSUpdate",
 
   -- Setup
   config = function()
-    local config = require('nvim-treesitter.configs')
-    config.setup({
-      -- ensure_installed = { 'lua', 'javascript', 'java', 'c', 'python' },
-      auto_install = true,
-      highlight = { enable = true },
-      indent = { enable = true },
+    require('nvim-treesitter').install(ensure_installed)
+
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = ensure_installed,
+      callback = function()
+        vim.treesitter.start()
+        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end,
     })
   end
 }
